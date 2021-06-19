@@ -1,11 +1,13 @@
 package games.exadriusryldro.application;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-import games.exadriusryldro.entities.ContaBancaria;
+import games.exadriusryldro.entities.Employee;
 
-public final class Main {
+public class Main {
 
 	public static void main(String[] args) {
 		
@@ -13,61 +15,56 @@ public final class Main {
 		
 		Scanner scanner = new Scanner(System.in);
 		
-		// Define uma instancia da conta bancaria pro computador entender que a parada existe (ja que ele aparenta nao raciocinar muito bem)
-		
-		ContaBancaria contaBancaria;
+		List<Employee> employeeList = new ArrayList<>();
 		
 		
-		// Recebe os dados basicos
-		
-		System.out.print("Enter account number: ");
-		int accountNumber = scanner.nextInt();
+		System.out.print("How many employees will be registered? ");
+		int employeesNumber = scanner.nextInt();
 		scanner.nextLine();
 		
-		System.out.print("Enter account holder: ");
-		String accountHolder = scanner.nextLine();
-		
-		System.out.print("\nIs there an initial deposit (y/n)? ");
-		char isInitialDepositString = scanner.next().charAt(0);
-		
-		// Verificação para saber se o caracter digitado corresponde a alternativa acima
-		
-		if(isInitialDepositString != 'y' && isInitialDepositString != 'n') {
-			scanner.close(); 
-			return;
+		for(int i = 1; i <= employeesNumber; i++) {
+			
+			System.out.printf("Emplyoee #%d:%n", i);
+			
+			System.out.print("Id: ");
+			int id = scanner.nextInt();
+			scanner.nextLine();
+			
+			System.out.print("Name: ");
+			String name = scanner.nextLine();
+			
+			System.out.print("Salary: ");
+			double salary = scanner.nextDouble();
+			
+			System.out.println("");
+			
+			Employee employee = new Employee(id, name, salary);
+			
+			employeeList.add(employee);
 		}
 		
-		// Verifica se o deposito ocorreu
+		System.out.println("");
 		
-		if(isInitialDepositString == 'y') {
+		System.out.print("Enter the employee id that will have salary increase : ");
+		int id = scanner.nextInt();
+		scanner.nextLine();
+		
+		System.out.println("Enter the percentage: ");
+		double percentage = scanner.nextDouble();
+		scanner.nextLine();
+		
+		System.out.println("");
+		
+		System.out.println("List of employees");
+		
+		for (int i = 0; i < employeeList.size(); i++) {
 			
-			System.out.print("Enter initial deposit value: ");
-			double initialDepositValue = scanner.nextDouble();
+			if(employeeList.get(i).getId() == id) {				
+				employeeList.get(i).addSalary(percentage);
+			}
 			
-			contaBancaria = new ContaBancaria(accountHolder, accountNumber, initialDepositValue);
-		} else {
-			contaBancaria = new ContaBancaria(accountHolder, accountNumber);
+			System.out.println(employeeList.get(i).toString());
 		}
 		
-		// Retorna os dados do usuario e solicita um incremento e decremento no saldo
-		
-		System.out.printf("%nAccount data:%n");
-		System.out.println(contaBancaria.toString());
-		
-		System.out.print("Enter a deposit value: ");
-		contaBancaria.addDeposit(scanner.nextDouble());
-		
-		System.out.printf("Updated account data:%n");
-		System.out.println(contaBancaria.toString());
-		
-		System.out.print("Enter a withdraw value: ");
-		contaBancaria.subDeposit(scanner.nextDouble());
-		
-		System.out.printf("Updated account data:%n");
-		System.out.println(contaBancaria.toString());
-		
-		
-		scanner.close();
 	}
-
 }

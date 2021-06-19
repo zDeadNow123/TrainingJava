@@ -65,6 +65,7 @@ public class Main {
 			
 			System.out.println(employeeList.get(i).toString());
 		}
-		
+	
+		scanner.close();
 	}
 }
